@@ -1,6 +1,7 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:meta_transaction/pages/index.dart';
+import 'package:meta_transaction/index.dart';
+import 'package:meta_transaction/widgets/will_pop_scope_route/will_pop_scope_route.dart';
 
 import 'config/application.dart';
 import 'config/routers.dart';
@@ -22,11 +23,11 @@ class MainAPP extends StatelessWidget{
         debugShowCheckedModeBanner: false,
         //onGenerateRoute: router.generator,
         onGenerateRoute:Application.router.generator,
-        title: 'Flutter Demo',  //这个title只有在任务管理的时候会有用
+        title: '元小易',  //这个title只有在任务管理的时候会有用
         theme: ThemeData(
             primarySwatch: Colors.lightBlue,
         ),
-        home: const Tabs()
+        home: const WillPopScopeRoute(child: Tabs())
       );
   }
 

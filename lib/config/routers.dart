@@ -1,69 +1,98 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:meta_transaction/pages/InfoPageGroup/InfoPage.dart';
 import 'package:meta_transaction/pages/communityPageGroup/communityPage.dart';
-import 'package:meta_transaction/pages/copyrightServicePageGroup/copyrightServicePage.dart';
+
 import 'package:meta_transaction/pages/homePageGroup/homePage.dart';
 import 'package:meta_transaction/pages/profilePageGroup/commonActionPages/login.dart';
 import 'package:meta_transaction/pages/profilePageGroup/commonActionPages/register.dart';
 import 'package:meta_transaction/pages/profilePageGroup/profilePage.dart';
+import 'package:meta_transaction/util/commonUtil.dart';
+import '../pages/notFoundPage.dart';
+import '../pages/webViewPage/webViewPage.dart';
+import '../widgets/will_pop_scope_route/will_pop_scope_route.dart';
 
 
 class Routers{
-  static String root = "/";
-  static String home = "/home";
-  static String profile = "/profile";
-  static String copyrightService= "/copyrightService";
-  static String community = "/community";
-  static String login = "/login";
-  static String register = "/register";
+
+  static String home = "/";   //主页面
+  static String profile = "/profile";  //个人中心页面
+  static String info= "/info";      //资讯页面
+  static String community = "/community";  //社区页面
+  static String login = "/login";    //登录
+  static String register = "/register";  //注册
+  static String webView = "/webView";  //webView页面
+
+
 
   static void configureRoutes(FluroRouter router){
     router.notFoundHandler = Handler(
         handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
-          throw Exception("router not define");
+          return const NotFoundPage();
         });
 
     router.define(home, handler:homeHandler);
-    router.define(copyrightService,handler: copyrightHandler);
+    router.define(info,handler: infoHandler);
     router.define(community, handler: communityHandler);
     router.define(profile,handler:profileHandler);
-    router.define(login,handler: loginHandler,transitionType: TransitionType.inFromBottom);
-    router.define(register,handler: registerHandler,transitionType: TransitionType.inFromLeft);
+    router.define(login,handler: loginHandler,transitionType: TransitionType.fadeIn);
+    router.define(register,handler: registerHandler,transitionType: TransitionType.fadeIn);
+    router.define(webView, handler: webViewPageHandler, transitionType: TransitionType.fadeIn);
 
   }
 
 
-  static Handler homeHandler = Handler(
+  static final Handler homeHandler = Handler(
       handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
-         return const HomePage();
+         return const WillPopScopeRoute(child: HomePage());
       });
 
-  static Handler copyrightHandler = Handler(
+  static final Handler infoHandler = Handler(
       handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
-        return const CopyrightServicePage();
+        return const WillPopScopeRoute(child: InfoPage());
       });
 
-  static Handler communityHandler = Handler(
+  static final Handler communityHandler = Handler(
       handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
-        return const CommunityPage();
+        return const WillPopScopeRoute(child: CommunityPage());
       });
 
-  static Handler profileHandler = Handler(
+  static final Handler profileHandler = Handler(
       handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
-        return const ProfilePage();
+        return const WillPopScopeRoute(child: ProfilePage());
       });
 
-  static Handler loginHandler = Handler(
+  static final Handler loginHandler = Handler(
       handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
         return const LoginPage();
       });
 
-  static Handler registerHandler = Handler(
+  static final Handler registerHandler = Handler(
       handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
         return const RegisterPage();
       });
 
+  static final Handler webViewPageHandler = Handler(
+      handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+        var title = ValueConvert.fluroCnParamsDecode(params["title"].first);
+        var url = ValueConvert.fluroCnParamsDecode(params["url"].first);
+        return WebViewPage(url: url,title: title);
+      });
 
+  // 路由带参数
+  // 在路由需要传输参数时，将参数一一对应传入，返回String
+  // 例如：transformParams(router,["1","2"]) => router/1/2
+  static String transformParams({
+    required String router,
+    required List<dynamic> params,
+  }) {
+    late String transform = "";
+    for (int i = 0; i < params.length; i++) {
+      transform += "/${params[i]}";
+    }
+    debugPrint("$router$transform");
+    return "$router$transform";
+  }
 
 }
 

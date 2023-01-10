@@ -31,15 +31,33 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
   http: ^0.12.1
-  provider: ^4.0.0
+  # 状态管理
+  provider: ^6.0.2
+  # 路由框架
   fluro: ^1.6.0
   json_annotation: ^2.3.0
   dio: ^3.0.9
+  # 共享存储
+  shared_preferences: ^2.0.15
+  # 震动
+  vibration: ^1.7.4-nullsafety.0
+  # 自适应工具
+  flutter_screenutil: ^5.5.3+2
+  flutter_swiper_null_safety: ^1.0.2
+  fluttertoast: ^8.0.7
+  # WebView
+  webview_flutter: ^3.0.4
+  # 动画
+  animations: ^2.0.3
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  # Remixicon字体图标库
+  remixicon: ^1.0.0
+
 
 dev_dependencies:
   flutter_test:
