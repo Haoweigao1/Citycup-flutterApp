@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.meta_transaction">
    <application
-        android:label="meta_transaction"
+        android:label="元小易"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

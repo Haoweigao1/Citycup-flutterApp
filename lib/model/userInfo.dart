@@ -8,7 +8,6 @@ class UserInfo extends ChangeNotifier{
   String _avatar = "";
   String _phone = "";
   String _email = "";
-  String _token = "";
 
 
   set uid(String value) {
@@ -41,10 +40,6 @@ class UserInfo extends ChangeNotifier{
     notifyListeners();
   }
 
-  set token(String value) {
-    _token = value;
-    notifyListeners();
-  }
 
 
 
@@ -53,7 +48,6 @@ class UserInfo extends ChangeNotifier{
   String get nickname => _nickname;
   String get avatar => _avatar;
   String get phone => _phone;
-  String get token => _token;
   String get email => _email;
 
 }

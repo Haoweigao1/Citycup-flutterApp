@@ -8,7 +8,7 @@ class CommunityPage extends StatefulWidget{
 
 }
 
-class _CommunityPageState extends State<CommunityPage>{
+class _CommunityPageState extends State<CommunityPage> with AutomaticKeepAliveClientMixin{
 
 
   @override
@@ -19,5 +19,8 @@ class _CommunityPageState extends State<CommunityPage>{
         )
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 
 }

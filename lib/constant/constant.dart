@@ -1,6 +1,7 @@
 
 //字符串常量
 class Constant{
+   static const String APP_NAME = "元小易";
    static const String TAB_HOME = "首页";
    static const String TAB_Info = "资讯";
    static const String TAB_COMMUNITY = "社区";

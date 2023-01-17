@@ -9,7 +9,7 @@ class ApplicationViewModel extends ChangeNotifier {
   // 多主题模式
   String _multipleThemesMode = "default";
 
-
+  bool _loginState = false; //标识用户是否已登录
 
   // 设置-主题模式
   void setThemeMode(ThemeMode themeMode) {
@@ -23,9 +23,14 @@ class ApplicationViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setLoginState(bool val){
+    _loginState = val;
+    notifyListeners();
+  }
+
 
 
   ThemeMode get themeMode => _themeMode;
   String get multipleThemesMode => _multipleThemesMode;
-
+  bool get loginState => _loginState;
 }

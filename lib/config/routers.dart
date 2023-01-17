@@ -1,15 +1,16 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:meta_transaction/pages/InfoPageGroup/InfoPage.dart';
-import 'package:meta_transaction/pages/communityPageGroup/communityPage.dart';
+import 'package:meta_transaction/pages/Info/InfoPage.dart';
+import 'package:meta_transaction/pages/community/communityPage.dart';
 
-import 'package:meta_transaction/pages/homePageGroup/homePage.dart';
-import 'package:meta_transaction/pages/profilePageGroup/commonActionPages/login.dart';
-import 'package:meta_transaction/pages/profilePageGroup/commonActionPages/register.dart';
-import 'package:meta_transaction/pages/profilePageGroup/profilePage.dart';
+import 'package:meta_transaction/pages/home/homePage.dart';
+import 'package:meta_transaction/pages/profile/commonActionPages/login.dart';
+import 'package:meta_transaction/pages/profile/commonActionPages/register.dart';
+import 'package:meta_transaction/pages/profile/profilePage.dart';
+import 'package:meta_transaction/pages/searchPage.dart';
 import 'package:meta_transaction/util/commonUtil.dart';
 import '../pages/notFoundPage.dart';
-import '../pages/webViewPage/webViewPage.dart';
+import '../pages/webview/webViewPage.dart';
 import '../widgets/will_pop_scope_route/will_pop_scope_route.dart';
 
 
@@ -22,7 +23,7 @@ class Routers{
   static String login = "/login";    //登录
   static String register = "/register";  //注册
   static String webView = "/webView";  //webView页面
-
+  static String search = "/search"; //搜索页面
 
 
   static void configureRoutes(FluroRouter router){
@@ -38,6 +39,7 @@ class Routers{
     router.define(login,handler: loginHandler,transitionType: TransitionType.fadeIn);
     router.define(register,handler: registerHandler,transitionType: TransitionType.fadeIn);
     router.define(webView, handler: webViewPageHandler, transitionType: TransitionType.fadeIn);
+    router.define(search,handler: searchPageHandler,transitionType: TransitionType.inFromBottom,transitionDuration:const Duration(milliseconds: 500));
 
   }
 
@@ -78,7 +80,10 @@ class Routers{
         var url = ValueConvert.fluroCnParamsDecode(params["url"].first);
         return WebViewPage(url: url,title: title);
       });
-
+  static final Handler searchPageHandler = Handler(
+      handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
+        return const SearchPage();
+      });
   // 路由带参数
   // 在路由需要传输参数时，将参数一一对应传入，返回String
   // 例如：transformParams(router,["1","2"]) => router/1/2

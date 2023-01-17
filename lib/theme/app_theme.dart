@@ -60,7 +60,7 @@ class AppTheme {
   static const subColor = Color(0xFFAFB8BF);
 
   // 背景色系列
-  static const backgroundColor1 = Color(0xFFE8ECF0);
+  static const backgroundColor1 = Color(0xFFECF0FF);
   static const backgroundColor2 = Color(0xFFFCFBFC);
   static const backgroundColor3 = Color(0xFFF3F2F3);
 
@@ -85,4 +85,5 @@ class AppTheme {
     }
     return darkTheme;
   }
+
 }

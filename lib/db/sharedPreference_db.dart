@@ -80,18 +80,17 @@ class PreferencesDB {
   }
 
   /// 设置-token
-  Future setUserToken(UserInfo userInfo, String token) async{
+  Future setUserToken(String token) async{
     SharedPreferences prefs = await init();
     prefs.setString(userToken, token);
-    userInfo.token = token;
   }
 
 
   ///获取token
-  Future<String> getUserToken(UserInfo userInfo) async{
+  Future<String> getUserToken() async{
     SharedPreferences prefs = await init();
     String token = prefs.getString(userToken) ?? "default";
-    userInfo.token = token;
+
     return token;
   }
 
