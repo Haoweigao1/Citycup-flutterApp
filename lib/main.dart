@@ -1,7 +1,11 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_transaction/index.dart';
+import 'package:meta_transaction/model/user_info.dart';
+import 'package:meta_transaction/service/user_service.dart';
 import 'package:meta_transaction/theme/app_theme.dart';
 import 'package:meta_transaction/widgets/will_pop_scope_route/will_pop_scope_route.dart';
 import 'package:provider/provider.dart';
@@ -22,8 +26,28 @@ void main() async{
   await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown
-  ]);
-  runApp(const MainAPP());
+  ]).then(
+        (_) => {
+      // 解决开屏白屏问题
+      // 如果size是0，则设置回调，在回调中runApp
+      if (window.physicalSize.isEmpty)
+        {
+          window.onMetricsChanged = () {
+            // 在回调中，size仍然有可能是0
+            if (!window.physicalSize.isEmpty) {
+              window.onMetricsChanged = null;
+              runApp(const MainAPP());
+            }
+          }
+        }
+      else
+        {
+          // 如果size非0，则直接runApp
+          runApp(const MainAPP())
+        }
+    },
+  );
+
 }
 
 
@@ -37,6 +61,7 @@ class MainAPP extends StatelessWidget{
         /// 状态管理
         providers: [
           ChangeNotifierProvider(create: (_) => ApplicationViewModel()),
+          ChangeNotifierProvider(create: (_) => UserInfo()),
         ],
         builder: (context, child) {
           final watchApplicationViewModel = context.watch<ApplicationViewModel>();
@@ -81,17 +106,17 @@ class _InitState extends State<Init> with WidgetsBindingObserver {
   void init() async {
     ApplicationViewModel applicationViewModel =
     Provider.of<ApplicationViewModel>(context, listen: false);
+    UserInfo userInfo = Provider.of<UserInfo>(context,listen:false);
     /// 触发获取APP主题深色模式
     PreferencesDB().getAppThemeDarkMode(applicationViewModel);
 
     /// 触发获取APP多主题模式
     PreferencesDB().getMultipleThemesMode(applicationViewModel);
 
-    /// 初始化用户登录状态
-    PreferencesDB().getUserToken().then((value) =>
-        value == 'default'? applicationViewModel.setLoginState(false) :
-            applicationViewModel.setLoginState(true)
-    );
+    String token = await PreferencesDB().getUserToken();
+    applicationViewModel.setLoginState(token == "default"? false: true);
+
+    await UserService.getMyInfo(userInfo);
 
   }
 
@@ -100,16 +125,16 @@ class _InitState extends State<Init> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.resumed:
-        debugPrint("app 恢复");
+        //debugPrint("app 恢复");
         break;
       case AppLifecycleState.inactive:
-        debugPrint("app 闲置");
+        //debugPrint("app 闲置");
         break;
       case AppLifecycleState.paused:
-        debugPrint("app 暂停");
+       //debugPrint("app 暂停");
         break;
       case AppLifecycleState.detached:
-        debugPrint("app 退出");
+        //debugPrint("app 退出");
         break;
     }
   }
@@ -131,6 +156,7 @@ class _InitState extends State<Init> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return const Tabs();
   }
+
 }
 
 

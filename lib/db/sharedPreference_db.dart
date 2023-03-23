@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:meta_transaction/model/userInfo.dart';
+import 'package:meta_transaction/model/user_info.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import '../model/application/applicationViewModel.dart';
@@ -90,8 +90,30 @@ class PreferencesDB {
   Future<String> getUserToken() async{
     SharedPreferences prefs = await init();
     String token = prefs.getString(userToken) ?? "default";
-
     return token;
   }
+
+
+  ///存储新闻浏览历史
+  Future addNewsHistory(String history) async{
+    SharedPreferences prefs = await init();
+    List<String> list = prefs.getStringList("history") ?? [];
+    list.add(history);
+    prefs.setStringList("history", list);
+  }
+
+  ///获取新闻浏览历史
+  Future<List<String>> getNewsHistory() async{
+    SharedPreferences prefs = await init();
+    return prefs.getStringList("history") ?? [];
+  }
+
+  ///删除所有新闻浏览历史
+  Future delNewsHistory() async{
+    SharedPreferences prefs = await init();
+    prefs.remove("history");
+  }
+
+
 
 }

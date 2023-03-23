@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta_transaction/constant/constant.dart';
-import 'package:meta_transaction/pages/Info/InfoPage.dart';
-import 'package:meta_transaction/pages/community/communityPage.dart';
-import 'package:meta_transaction/pages/profile/profilePage.dart';
-import 'package:meta_transaction/pages/home/homePage.dart';
+import 'package:meta_transaction/pages/Info/Info_page.dart';
+import 'package:meta_transaction/pages/community/community_page.dart';
+import 'package:meta_transaction/pages/profile/profile_page.dart';
+import 'package:meta_transaction/pages/home/home_page.dart';
 import 'package:meta_transaction/theme/app_theme.dart';
 import 'package:remixicon/remixicon.dart';
 
@@ -48,9 +48,8 @@ class _TabsState extends State<Tabs> with TickerProviderStateMixin{
   @override
   void dispose() {
     /// Tab控制
-    _pageController.dispose();
     super.dispose();
-
+    _pageController.dispose();
   }
   @override
   Widget build(BuildContext context) {
@@ -114,7 +113,7 @@ class _TabsState extends State<Tabs> with TickerProviderStateMixin{
                             size: _tabIconSize)
                     ),
                     Tab(text: Constant.TAB_COMMUNITY,
-                        icon: Icon(Remix.group_line,
+                        icon: Icon(Remix.compass_3_line,
                             size: _tabIconSize)
                     ),
                     Tab(text: Constant.TAB_PROFILE,
@@ -141,18 +140,3 @@ class _TabsState extends State<Tabs> with TickerProviderStateMixin{
 
 
 
-
-// final dio = Dio()..interceptors.add(ApiInterceptor());
-//
-// class ApiInterceptor extends InterceptorsWrapper {
-//
-//   @override
-//   void onError(DioError err) {
-//     super.onError(err);
-//     int? statusCode = err.response?.statusCode;
-//     if (statusCode == 401) {
-//       // 触发登出事件
-//       EventBus.instance.commit(EventKeys.logout);
-//     }
-//   }
-// }
